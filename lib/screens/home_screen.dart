@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_track/widgets/home_screen_table.dart';
+import 'package:ticket_track/widgets/home_ticket.dart';
 import '../providers/alert_provider.dart';
 import 'new_ticket.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Inicio'),
         ),
-        body: const HomeScreenTable(),
+        body: const HomeTicket(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
