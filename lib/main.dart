@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ticket_track/providers/new_ticket_provider.dart';
 import 'package:ticket_track/providers/ticket_provider.dart';
-import 'package:ticket_track/screens/new_ticket.dart';
 
 import 'models/counter.dart';
 import 'models/screen_manager.dart';
@@ -17,6 +17,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ScreenManager()),
         ChangeNotifierProvider(create: (context) => ThemeNotifier()),
         ChangeNotifierProvider(create: (context) => TicketProvider()),
+        ChangeNotifierProvider(create: (context) => NewTicketProvider()),
       ],
       child: const MyApp(),
     ),
@@ -56,7 +57,12 @@ class MyHomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.update),
             onPressed: () {
-              //Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
+              final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+              if (themeNotifier != null) {
+                themeNotifier.toggleTheme();
+              } else {
+                print('Error');
+              }
             },
           ),
         ],
@@ -107,8 +113,7 @@ class MyHomePage extends StatelessWidget {
       body: Consumer<ScreenManager>(
         builder: (context, screenManager, child) {
           if (screenManager.currentScreen == 'Inicio') {
-            return const NewTicket();
-            //return const HomeScreen();
+            return const HomeScreen();
           } else if (screenManager.currentScreen == 'Configuración') {
             return const ConfigurationAppScreen();
           } else {

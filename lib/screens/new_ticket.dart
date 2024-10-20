@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/ticket_provider.dart';
+import 'package:ticket_track/providers/new_ticket_provider.dart';
 
 class NewTicket extends StatelessWidget {
   const NewTicket({super.key});
@@ -9,19 +9,16 @@ class NewTicket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ticketProvider = Provider.of<TicketProvider>(context);
+    final ticketProvider = Provider.of<NewTicketProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Nuevo Ticket'),
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 150.0, right: 150.0, top: 10.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Datos del Departamento Involucrado:'),
+              const Text('Datos del Departamento Involucrado:'),
               Wrap(
                 direction: Axis.horizontal,
                 alignment: WrapAlignment.spaceBetween,
@@ -80,7 +77,7 @@ class NewTicket extends StatelessWidget {
                   ),
                 ],
               ),
-              Text('Datos del Ticket:'),
+              const Text('Datos del Ticket:'),
               Wrap(
                 direction: Axis.horizontal,
                 alignment: WrapAlignment.spaceBetween,
@@ -191,7 +188,7 @@ class NewTicket extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  final ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+                  final ticketProvider = Provider.of<NewTicketProvider>(context, listen: false);
                   final ticketData = ticketProvider.ticket;
 
                   if (ticketProvider.validateFields()) {
