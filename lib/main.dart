@@ -49,6 +49,38 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Map<String, Map<String, dynamic>> menuItems = {
+      'Inicio': {
+        'icon': Icons.home,
+        'action': () {
+          Provider.of<ScreenManager>(context, listen: false).changeScreen('Inicio');
+          Navigator.pop(context);
+        },
+      },
+      'Historial Tickets': {
+        'icon': Icons.history,
+        'action': () {
+          Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+          Navigator.pop(context);
+        },
+      },
+      'Configuración': {
+        'icon': Icons.settings,
+        'action': () {
+          Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+          Navigator.pop(context);
+        },
+      },
+      'Cerrar Sesión': {
+        'icon': Icons.logout,
+        'action': () {
+          Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+          Navigator.pop(context);
+        },
+      },
+    };
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -83,30 +115,13 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Inicio'),
-              onTap: () {
-                Provider.of<ScreenManager>(context, listen: false).changeScreen('Inicio');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Configuración'),
-              onTap: () {
-                Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Cerrar Sesión'),
-              onTap: () {
-                Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
-                Navigator.pop(context);
-              },
-            ),
+            ...menuItems.entries.map((entry) {
+              return ListTile(
+                leading: Icon(entry.value['icon']),
+                title: Text(entry.key),
+                onTap: entry.value['action'],
+              );
+            }).toList(),
           ],
         ),
       ),
