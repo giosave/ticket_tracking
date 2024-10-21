@@ -12,13 +12,21 @@ class NewTicket extends StatelessWidget {
     final ticketProvider = Provider.of<NewTicketProvider>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Nuevo Ticket'),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 150.0, right: 150.0, top: 10.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Datos del Departamento Involucrado:'),
+              const Text('Datos del Departamento Involucrado:', 
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Divider(
+                thickness: 4,
+                color: Colors.white60,
+              ),
               Wrap(
                 direction: Axis.horizontal,
                 alignment: WrapAlignment.spaceBetween,
@@ -77,7 +85,12 @@ class NewTicket extends StatelessWidget {
                   ),
                 ],
               ),
-              const Text('Datos del Ticket:'),
+              const SizedBox(height: 8.0),const SizedBox(height: 8.0),
+              const Text('Datos del Ticket:',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Divider(
+                thickness: 4,
+                color: Colors.white60,
+              ),
               Wrap(
                 direction: Axis.horizontal,
                 alignment: WrapAlignment.spaceBetween,
@@ -126,7 +139,8 @@ class NewTicket extends StatelessWidget {
                   ),
                 ],
               ),
-              const Text('Fechas y Escalones:'),
+              const SizedBox(height: 8.0),const SizedBox(height: 8.0),
+              const Text('Fechas y Escalones:',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const Divider(
                 thickness: 4,
                 color: Colors.white60,
