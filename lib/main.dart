@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          theme: ThemeData.dark(),
+          theme: themeNotifier.themeData,
           home: const MyHomePage(title: 'Flutter Demo Home Page'),
         );
       },
@@ -50,7 +50,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final Map<String, Map<String, dynamic>> menuItems = {
       'Inicio': {
         'icon': Icons.home,

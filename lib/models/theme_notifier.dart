@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 
 class ThemeNotifier extends ChangeNotifier {
-  bool _isDarkMode = false;
+  bool isDarkMode = false;
+  ColorScheme _colorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
 
-  bool get isDarkMode => _isDarkMode;
+  ThemeData get themeData => ThemeData(
+        colorScheme: _colorScheme.copyWith(
+          brightness: isDarkMode ? Brightness.dark : Brightness.light,
+        ),
+        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      );
 
-  ThemeData get currentTheme => _isDarkMode ? ThemeData.dark() : ThemeData.light();
+  Color get currentColor => _colorScheme.primary;
 
   void toggleTheme() {
-    _isDarkMode = !_isDarkMode;
+    isDarkMode = !isDarkMode;
+    notifyListeners();
+  }
+
+  void updateColorScheme(ColorScheme colorScheme) {
+    _colorScheme = colorScheme;
     notifyListeners();
   }
 }
