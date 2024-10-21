@@ -37,6 +37,23 @@ class TicketService {
         days: 1,
         comments: 'Cliente solicitó seguimiento',
       ),
+      Ticket(
+        folio: 'F11223',
+        date: '2023-10-03',
+        origin: 'Chat',
+        site: 'Sucursal Sur',
+        client: 'Cliente C',
+        situation: 'Completado',
+        level: 'Bajo',
+        status: 'Cerrado',
+        responsiblePerson: 'Laura Martínez',
+        department: 'Ventas',
+        assignedPerson: 'Pedro Sánchez',
+        commitmentDate: '2023-10-07',
+        steps: 1,
+        days: 0,
+        comments: 'Caso resuelto satisfactoriamente',
+      ),
     ];
   }
 }

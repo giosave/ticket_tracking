@@ -8,9 +8,9 @@ class TicketCard extends StatelessWidget {
 
   /* Ticket Status, 1 = Alto, 2 = Medio, 3 = Bajo */
   final Map<String, Color> colorPalette = {
-    'Abierto': Colors.green,
-    'En Progreso': Colors.yellow,
-    'Completado': Colors.red,
+    'Completado': Colors.green,
+    'En Proceso': Colors.yellow,
+    'Pendiente': Colors.red,
   };
 
   TicketCard({

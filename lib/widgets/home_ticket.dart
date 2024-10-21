@@ -19,11 +19,9 @@ class HomeTicket extends StatelessWidget {
           spacing: 8.0,
           runSpacing: 8.0, 
           children: ticketProvider.tickets.map((ticket) {
-            String colorKey = ticket.status == 'Abierto' ? 'En Proceso' : 'error';
-
             return TicketCard(
               ticket: ticket,
-              colorKey: colorKey,
+              colorKey: ticket.situation,
               textColor: Colors.black,
             );
           }).toList(),
