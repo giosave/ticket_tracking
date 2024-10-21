@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_track/providers/new_ticket_provider.dart';
 import 'package:ticket_track/providers/ticket_provider.dart';
+import 'package:ticket_track/widgets/home_screen_table.dart';
 
 import 'models/counter.dart';
 import 'models/screen_manager.dart';
@@ -61,7 +62,7 @@ class MyHomePage extends StatelessWidget {
       'Historial Tickets': {
         'icon': Icons.history,
         'action': () {
-          Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+          Provider.of<ScreenManager>(context, listen: false).changeScreen('Historial Tickets');
           Navigator.pop(context);
         },
       },
@@ -131,6 +132,8 @@ class MyHomePage extends StatelessWidget {
             return const HomeScreen();
           } else if (screenManager.currentScreen == 'Configuración') {
             return const ConfigurationAppScreen();
+          } else if (screenManager.currentScreen == 'Historial Tickets') {
+            return const HomeScreenTable();
           } else {
             return const Center(child: Text('No se ha encontrado la pantalla'));
           }
