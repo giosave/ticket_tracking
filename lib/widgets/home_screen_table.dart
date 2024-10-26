@@ -1,58 +1,95 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:ticket_track/providers/alert_provider.dart';
 
-class HomeScreenTable extends StatelessWidget {
+class HomeScreenTable extends StatefulWidget {
   const HomeScreenTable({super.key});
+
+  @override
+  State<HomeScreenTable> createState() => _HomeScreenTableState();
+}
+
+class _HomeScreenTableState extends State<HomeScreenTable> {
+  DateTime? _startDate = DateTime.now();
+  DateTime? _endDate = DateTime.now().add(Duration(days: 1));
 
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    DateTime? _startDate;
-    DateTime? _endDate;
 
     return Padding(
       padding: const EdgeInsets.only(left: 40, right: 40, top: 15),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Wrap(
+            spacing: 100.0,
+            runSpacing: 10.0,
+            alignment: WrapAlignment.center,
             children: [
-              ElevatedButton(
+              _buildIconTextButton(
+                icon: Icons.calendar_today,
+                text: _startDate == null
+                    ? "Fecha inicio: No seleccionada"
+                    : "Fecha inicio: ${_startDate!.toLocal().toString().split(' ')[0]}",
                 onPressed: () async {
                   DateTime? picked = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now(),
+                    initialDate: _startDate ?? DateTime.now(),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2101),
                   );
-                  if (picked != null && picked != _startDate) {
-                    _startDate = picked;
+                  if (picked != null) {
+                    setState(() {
+                      _startDate = picked;
+                    });
                   }
                 },
-                child: Text(_startDate == null ? 'Fecha Inicio' : _startDate.toString()),
               ),
-              ElevatedButton(
+              _buildIconTextButton(
+                icon: Icons.event,
+                text: _endDate == null
+                    ? "Fecha fin: No seleccionada"
+                    : "Fecha fin: ${_endDate!.toLocal().toString().split(' ')[0]}",
                 onPressed: () async {
                   DateTime? picked = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now(),
+                    initialDate: _endDate ?? DateTime.now().add(const Duration(days: 1)),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2101),
                   );
-                  if (picked != null && picked != _endDate) {
-                    _endDate = picked;
+                  if (picked != null) {
+                    setState(() {
+                      _endDate = picked;
+                    });
                   }
                 },
-                child: Text(_endDate == null ? 'Fecha Fin' : _endDate.toString()),
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
-                  print('Fecha Inicio: $_startDate');
-                  print('Fecha Fin: $_endDate');
+                  if (_startDate != null && _endDate != null) {
+                    if (_startDate!.isAfter(_endDate!)) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Error de Fecha'),
+                            content: const Text('Las fechas no tienen un rango válido.'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Aceptar'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                    }
+                  }
                 },
-                child: const Text('Buscar'),
+                icon: const Icon(Icons.search),
+                label: const Text('Buscar'),
               ),
             ],
           ),
@@ -166,26 +203,62 @@ class HomeScreenTable extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.email),
                           onPressed: () {
-                            final alertProvider = Provider.of<AlertProvider>(context, listen: false);
-                            alertProvider.setMessage('¿Estás seguro de notificar a Giovanni, del ticket vencido?\nFecha inicial: 2023-10-01 \nFecha final: 2023-10-10');
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: const Text('Confirmación'),
-                                  content: Text(alertProvider.message),
+                                  content: const Text('¿Está seguro de reenviar el correo?'),
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: const Text('Cancelar'),
+                                      child: const Text('No'),
                                     ),
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            TextEditingController emailController = TextEditingController();
+                                            return AlertDialog(
+                                              title: const Text('Reenviar Correo'),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Text('Ingrese los correos electrónicos separados por comas:'),
+                                                  TextField(
+                                                    controller: emailController,
+                                                    decoration: const InputDecoration(
+                                                      hintText: 'ejemplo1@correo.com, ejemplo2@correo.com',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Cancelar'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    String emails = emailController.text;
+                                                    print('Correos ingresados: $emails');
+                                                    Navigator.of(context).pop();
+                                                    setState(() {});
+                                                  },
+                                                  child: const Text('Enviar'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
-                                      child: const Text('Notificar'),
+                                      child: const Text('Sí'),
                                     ),
                                   ],
                                 );
@@ -200,15 +273,7 @@ class HomeScreenTable extends StatelessWidget {
                       const DataCell(Text('Sitio A')),
                       const DataCell(Text('Cliente X')),
                       const DataCell(Text('Pendiente')),
-                      DataCell(
-                        Container(
-                          color: Colors.red,
-                          child: const Text(
-                            'Alto',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ),
+                      const DataCell(Text('Alto')),
                       const DataCell(Text('En Proceso')),
                       const DataCell(Text('Juan Pérez')),
                       const DataCell(Text('IT')),
@@ -225,7 +290,7 @@ class HomeScreenTable extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.email),
                           onPressed: () {
-                            print('Fila 002 seleccionada');
+                            
                           },
                         ),
                       ),
@@ -235,17 +300,7 @@ class HomeScreenTable extends StatelessWidget {
                       const DataCell(Text('Sitio B')),
                       const DataCell(Text('Cliente Y')),
                       const DataCell(Text('Resuelto')),
-                      DataCell(
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.yellow,
-                          ),
-                          child: Text(
-                            'Medio',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ),
+                      const DataCell(Text('Medio')),
                       const DataCell(Text('Completado')),
                       const DataCell(Text('María López')),
                       const DataCell(Text('Ventas')),
@@ -297,6 +352,25 @@ class HomeScreenTable extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildIconTextButton({
+    required IconData icon,
+    required String text,
+    required VoidCallback onPressed,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(icon),
+          onPressed: onPressed,
+        ),
+        Text(text),
+      ],
     );
   }
 }
