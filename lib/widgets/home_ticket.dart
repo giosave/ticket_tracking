@@ -15,16 +15,18 @@ class HomeTicket extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          spacing: 8.0,
-          runSpacing: 8.0, 
-          children: ticketProvider.tickets.map((ticket) {
-            return TicketCard(
-              ticket: ticket,
-              colorKey: ticket.situation,
-              textColor: Colors.black,
-            );
-          }).toList(),
+        child: SingleChildScrollView(
+          child: Wrap(
+            spacing: 8.0,
+            runSpacing: 8.0, 
+            children: ticketProvider.tickets.map((ticket) {
+              return TicketCard(
+                ticket: ticket,
+                colorKey: ticket.situation,
+                textColor: Colors.black,
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
