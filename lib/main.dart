@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_track/providers/new_ticket_provider.dart';
 import 'package:ticket_track/providers/ticket_provider.dart';
+import 'package:ticket_track/screens/login_screen.dart';
 import 'package:ticket_track/widgets/home_screen_table.dart';
 
 import 'models/counter.dart';
@@ -65,7 +66,14 @@ class MyHomePage extends StatelessWidget {
           Navigator.pop(context);
         },
       },
-      'Configuración': {
+      'Historial Tickets de Soporte': {
+        'icon': Icons.history,
+        'action': () {
+          Provider.of<ScreenManager>(context, listen: false).changeScreen('Historial Tickets');
+          Navigator.pop(context);
+        },
+      },
+      /*'Configuración': {
         'icon': Icons.settings,
         'action': () {
           Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
@@ -78,7 +86,7 @@ class MyHomePage extends StatelessWidget {
           Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
           Navigator.pop(context);
         },
-      },
+      },*/
     };
 
     return Scaffold(
@@ -86,16 +94,49 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
         actions: [
-          IconButton(
-            icon: Icon(Icons.update),
-            onPressed: () {
-              final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-              if (themeNotifier != null) {
-                themeNotifier.toggleTheme();
-              } else {
-                print('Error');
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.person),
+            onSelected: (String result) {
+              switch (result) {
+                case 'Configuración':
+                  Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+                  break;
+                case 'Color Oscuro':
+                  final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+                  if (themeNotifier != null) {
+                    themeNotifier.toggleTheme();
+                  } else {
+                    print('Error');
+                  }
+                  break;
+                case 'Cerrar Sesión':
+                  Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+                  break;
               }
             },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'Configuración',
+                child: ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Configuración'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Color Oscuro',
+                child: ListTile(
+                  leading: Icon(Icons.brightness_6),
+                  title: Text('Color Oscuro'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Cerrar Sesión',
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Cerrar Sesión'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
