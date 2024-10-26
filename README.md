@@ -1,16 +1,50 @@
-# ticket_track
+# Ticket_tracking
 
-A new Flutter project.
+Seguimiento de tickets por usuario con notificacion por correo, principales funciones:
+- Actualizar estatus del ticket (notifica al correo del responsable)
+- Notificar evidencia enviada anteriormente (notifica al correo del responsable)
+- Cambio de color de la aplicacion
 
-## Getting Started
+## Estructura del Proyecto
+```sql
+docs
+├── tickets_dia.drawio
+images
+├── logo.png
+lib
+├── models
+│   └── screen_manager.dart
+│   └── theme_notifier.dart
+│   └── ticket.dart
+│   └── ticket_model.dart
+├── providers
+│   └── alert_provider.dart
+│   └── new_ticket_provider.dart
+│   └── ticket_provider.dart
+├── screens
+│   └── configuration_app.dart
+│   └── home_screen.dart
+│   ├── login_screen.dart
+│   └── new_ticket.dart
+├── services
+│   └── api_service.dart
+│   └── ticket_service.dart
+├── utils
+│   ├── helpers.dart
+├── widgets
+│   └── home_ticket.dart
+│   └── ticket_dard.dart
+└── main.dart
+```
+## Configuracion
+Para comenzar a usar este proyecto
 
-This project is a starting point for a Flutter application.
+- Clona o descarga el repositorio: `git clone https://github.com/giosave/ticket_tracking.git`
+- Abra el proyecto en cualquier entorno de desarrollo con Dart/Flutter instalado
+- Ejecute `flutter pub get` para obtener las dependencias del proyecto
+- Listo, ejecute la aplicacion si es en modo debug, seleccionando main.dart
 
-A few resources to get you started if this is your first Flutter project:
+## Capturas de Pantalla
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Versiones
+Version de SDK instalada para el uso de este proyecto: 
