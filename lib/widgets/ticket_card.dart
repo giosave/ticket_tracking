@@ -27,6 +27,7 @@ class TicketCard extends StatefulWidget {
 
 class _TicketCardState extends State<TicketCard> {
   DateTime selectedDate = DateTime.now();
+  String _comment = '';
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class _TicketCardState extends State<TicketCard> {
                         },
                       );
                     },
-                    icon: Icon(Icons.info),
+                    icon: const Icon(Icons.info),
                   )
                 ],
               ),
@@ -112,7 +113,17 @@ class _TicketCardState extends State<TicketCard> {
                                 children: [
                                   _buildEvidenceSection(),
                                   const Divider(),
-                                  _buildChangeDate(context, setState)
+                                  _buildChangeDate(context, setState),
+                                  const Divider(),
+                                  TextFormField(
+                                    decoration: const InputDecoration(labelText: 'Comentarios'),
+                                    maxLines: 3,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _comment = value;
+                                      });
+                                    },
+                                  ),
                                 ],
                               ),
                               actions: [
@@ -138,6 +149,49 @@ class _TicketCardState extends State<TicketCard> {
                                       );
                                       return;
                                     }
+
+                                    if (_comment.isEmpty) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text("Error"),
+                                            content: const Text("El comentario no puede estar vacío."),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text("Cerrar"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      return;
+                                    }
+
+                                    if (_comment.length < 4) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text("Error"),
+                                            content: const Text("El comentario debe ser más largo."),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text("Cerrar"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      return;
+                                    }
+
                                     bool? confirm = await showDialog(
                                       context: context,
                                       builder: (context) {
@@ -234,11 +288,11 @@ class _TicketCardState extends State<TicketCard> {
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         },
-                        child: const Text("No"),
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.red,
                         ),
+                        child: const Text("No"),
                       ),
                     ],
                   );
