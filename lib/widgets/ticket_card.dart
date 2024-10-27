@@ -9,9 +9,9 @@ class TicketCard extends StatefulWidget {
 
   /* Ticket Status, 1 = Alto, 2 = Medio, 3 = Bajo */
   final Map<String, Color> colorPalette = {
-    'Completado': Colors.green,
-    'En Proceso': Colors.yellow,
-    'Pendiente': Colors.red,
+    'Completado': const Color.fromARGB(255, 160, 230, 162),
+    'En Proceso': const Color.fromRGBO(232, 226, 171, 1),
+    'Pendiente': const Color.fromARGB(255, 241, 189, 185),
   };
 
   TicketCard({
@@ -31,10 +31,13 @@ class _TicketCardState extends State<TicketCard> {
 
   @override
   Widget build(BuildContext context) {
+    Color ticketColor = widget.colorPalette[widget.colorKey] ?? Colors.black;
+    Color darkerColor = _darkDividerColor(ticketColor, 0.6);
+
     return SizedBox(
       width: 320.0,
       child: Card(
-        color: widget.colorPalette[widget.colorKey] ?? Colors.white,
+        color: ticketColor,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -78,7 +81,7 @@ class _TicketCardState extends State<TicketCard> {
                   )
                 ],
               ),
-              const Divider(),
+              Divider(color: darkerColor),
               Text('Dias: ${widget.ticket.days}',
                   style: TextStyle(color: widget.textColor)),
               Text('Nivel: ${widget.ticket.level}',
@@ -89,7 +92,7 @@ class _TicketCardState extends State<TicketCard> {
                   style: TextStyle(color: widget.textColor)),
               Text('Situacion: ${widget.ticket.situation}',
                   style: TextStyle(color: widget.textColor)),
-              const Divider(),
+              Divider(color: darkerColor),
               Text('Cliente: ${widget.ticket.client}',
                   style: TextStyle(color: widget.textColor)),
               Text('Departamento Responsable: ${widget.ticket.department}',
@@ -352,5 +355,11 @@ class _TicketCardState extends State<TicketCard> {
         ),
       ],
     );
+  }
+
+  Color _darkDividerColor(Color color, double amount) {
+    final hsl = HSLColor.fromColor(color);
+    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 10.0));
+    return hslDark.toColor();
   }
 }
