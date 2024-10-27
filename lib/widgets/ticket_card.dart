@@ -37,6 +37,7 @@ class _TicketCardState extends State<TicketCard> {
     return SizedBox(
       width: 320.0,
       child: Card(
+        elevation: 10,
         color: ticketColor,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -77,11 +78,12 @@ class _TicketCardState extends State<TicketCard> {
                         },
                       );
                     },
-                    icon: const Icon(Icons.info),
+                    icon: const Icon(Icons.info,
+                        color: Color.fromARGB(255, 60, 80, 95)),
                   )
                 ],
               ),
-              Divider(color: darkerColor),
+              Divider(color: darkerColor, thickness: 2),
               Text('Dias: ${widget.ticket.days}',
                   style: TextStyle(color: widget.textColor)),
               Text('Nivel: ${widget.ticket.level}',
@@ -92,7 +94,7 @@ class _TicketCardState extends State<TicketCard> {
                   style: TextStyle(color: widget.textColor)),
               Text('Situacion: ${widget.ticket.situation}',
                   style: TextStyle(color: widget.textColor)),
-              Divider(color: darkerColor),
+              Divider(color: darkerColor, thickness: 2),
               Text('Cliente: ${widget.ticket.client}',
                   style: TextStyle(color: widget.textColor)),
               Text('Departamento Responsable: ${widget.ticket.department}',
@@ -104,6 +106,12 @@ class _TicketCardState extends State<TicketCard> {
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   onPressed: () async {
                     showDialog(
                       context: context,
@@ -119,7 +127,8 @@ class _TicketCardState extends State<TicketCard> {
                                   _buildChangeDate(context, setState),
                                   const Divider(),
                                   TextFormField(
-                                    decoration: const InputDecoration(labelText: 'Comentarios'),
+                                    decoration: const InputDecoration(
+                                        labelText: 'Comentarios'),
                                     maxLines: 3,
                                     onChanged: (value) {
                                       setState(() {
@@ -138,7 +147,8 @@ class _TicketCardState extends State<TicketCard> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text("Error"),
-                                            content: const Text("La fecha de compromiso debe ser mayor a la fecha actual."),
+                                            content: const Text(
+                                                "La fecha de compromiso debe ser mayor a la fecha actual."),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {
@@ -159,7 +169,8 @@ class _TicketCardState extends State<TicketCard> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text("Error"),
-                                            content: const Text("El comentario no puede estar vacío."),
+                                            content: const Text(
+                                                "El comentario no puede estar vacío."),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {
@@ -180,7 +191,8 @@ class _TicketCardState extends State<TicketCard> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text("Error"),
-                                            content: const Text("El comentario debe ser más largo."),
+                                            content: const Text(
+                                                "El comentario debe ser más largo."),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {
@@ -200,7 +212,8 @@ class _TicketCardState extends State<TicketCard> {
                                       builder: (context) {
                                         return AlertDialog(
                                           title: const Text("Confirmación"),
-                                          content: const Text("¿Estás seguro de actualizar la fecha?"),
+                                          content: const Text(
+                                              "¿Estás seguro de actualizar la fecha?"),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -214,7 +227,8 @@ class _TicketCardState extends State<TicketCard> {
                                             ),
                                             TextButton(
                                               onPressed: () {
-                                                Navigator.of(context).pop(false);
+                                                Navigator.of(context)
+                                                    .pop(false);
                                               },
                                               style: TextButton.styleFrom(
                                                 foregroundColor: Colors.white,
@@ -275,7 +289,8 @@ class _TicketCardState extends State<TicketCard> {
                 builder: (context) {
                   return AlertDialog(
                     title: const Text("Confirmación"),
-                    content: const Text("¿Está seguro de notificar que ha enviado evidencia por correo?"),
+                    content: const Text(
+                        "¿Está seguro de notificar que ha enviado evidencia por correo?"),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -318,8 +333,9 @@ class _TicketCardState extends State<TicketCard> {
   bool _isInvalidDate(DateTime date) {
     DateTime today = DateTime.now();
     DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
-    return date.isBefore(todayWithoutTime) || 
-          "${date.year}-${date.month}-${date.day}" == "${today.year}-${today.month}-${today.day}";
+    return date.isBefore(todayWithoutTime) ||
+        "${date.year}-${date.month}-${date.day}" ==
+            "${today.year}-${today.month}-${today.day}";
   }
 
   Widget _buildChangeDate(
@@ -333,7 +349,7 @@ class _TicketCardState extends State<TicketCard> {
             const Text("Actualizar Fecha Compromiso:"),
             Text(
               "${selectedDate.toLocal()}".split(' ')[0],
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -359,7 +375,8 @@ class _TicketCardState extends State<TicketCard> {
 
   Color _darkDividerColor(Color color, double amount) {
     final hsl = HSLColor.fromColor(color);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 10.0));
+    final hslDark =
+        hsl.withLightness((hsl.lightness - amount).clamp(0.0, 10.0));
     return hslDark.toColor();
   }
 }
