@@ -13,10 +13,10 @@ class HomeScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AlertProvider(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Inicio'),
+        body: const Padding(
+          padding: EdgeInsets.all(10),
+          child: HomeTicket(),
         ),
-        body: const HomeTicket(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
