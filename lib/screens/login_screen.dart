@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_track/main.dart';
+import 'package:ticket_track/services/auth_service.dart';
+import 'package:ticket_track/models/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -21,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     if (_userController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Por favor, complete todos los campos')),
+        const SnackBar(content: Text('Por favor, complete todos los campos')),
       );
       return;
     }
@@ -29,17 +32,28 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = true;
     });
-    /* pruebas */
-    await Future.delayed(Duration(seconds: 2));
+
+    UserModel user = UserModel(
+      username: _userController.text,
+      password: _passwordController.text,
+    );
+
+    bool isAuthenticated = await _authService.authenticate(user);
 
     setState(() {
       _isLoading = false;
     });
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page')),
-    );
+    if (isAuthenticated && mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Credenciales incorrectas')),
+      );
+    }
   }
 
   @override
@@ -59,16 +73,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       'lib/images/logotipoow.png',
                       height: 200,
                       errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                        return Text('Error al cargar la imagen');
+                        return const Text('Error al cargar la imagen');
                       },
                     ),
                     TextField(
                       controller: _userController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Usuario',
                       ),
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     TextField(
                       controller: _passwordController,
                       decoration: InputDecoration(
@@ -82,17 +96,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       obscureText: _obscureText,
                     ),
-                    SizedBox(height: 32.0),
+                    const SizedBox(height: 32.0),
                     ElevatedButton(
                       onPressed: _isLoading ? null : _login,
-                      child: Text('Iniciar Sesión'),
+                      child: const Text('Iniciar Sesión'),
                     ),
                   ],
                 ),
               ),
             ),
             if (_isLoading)
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               ),
           ],
