@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_track/providers/new_ticket_provider.dart';
 import 'package:ticket_track/providers/ticket_provider.dart';
+import 'package:ticket_track/providers/user_role_provider.dart';
 import 'package:ticket_track/screens/login_screen.dart';
 import 'package:ticket_track/widgets/home_screen_table.dart';
 
@@ -20,6 +21,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ThemeNotifier()),
         ChangeNotifierProvider(create: (context) => TicketProvider()),
         ChangeNotifierProvider(create: (context) => NewTicketProvider()),
+        ChangeNotifierProvider(create: (context) => UserRoleProvider()),
       ],
       child: const MyApp(),
     ),
