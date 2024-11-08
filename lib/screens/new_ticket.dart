@@ -10,13 +10,19 @@ class NewTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ticketProvider = Provider.of<NewTicketProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final double dropdownWidth = screenWidth * 0.4;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Nuevo Ticket'),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 150.0, right: 150.0, top: 10.0),
+        padding: EdgeInsets.only(
+          left: screenWidth < 600 ? 20.0 : 150.0,
+          right: screenWidth < 600 ? 20.0 : 150.0,
+          top: 10.0,
+        ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +40,7 @@ class NewTicket extends StatelessWidget {
                 runSpacing: 8.0,
                 children: [
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Folio',
@@ -44,7 +50,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Origen',
@@ -54,7 +60,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Sitio',
@@ -64,7 +70,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Cliente',
@@ -74,7 +80,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Situación',
@@ -98,7 +104,7 @@ class NewTicket extends StatelessWidget {
                 runSpacing: 8.0,
                 children: [
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Nivel',
@@ -108,7 +114,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Estatus',
@@ -118,7 +124,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Persona Encargada',
@@ -128,7 +134,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Departamento',
@@ -152,7 +158,7 @@ class NewTicket extends StatelessWidget {
                 runSpacing: 8.0,
                 children: [
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Persona Responsable',
@@ -162,7 +168,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Fecha Compromiso',
@@ -172,7 +178,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Escalones',
@@ -182,7 +188,7 @@ class NewTicket extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultWidth,
+                    width: dropdownWidth,
                     child: _buildDropdownField(
                       context,
                       'Días',
