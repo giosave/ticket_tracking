@@ -5,6 +5,7 @@ import 'package:ticket_track/providers/user_role_provider.dart';
 import 'package:ticket_track/services/auth_service.dart';
 import 'package:ticket_track/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ticket_track/services/services_response.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -54,10 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    UserModel? user = await _authService.authenticate(
+    ServicesResponse<UserModel> response = await _authService.accessTicketTracking(
       _userController.text,
       _passwordController.text,
     );
+
+    UserModel? user = response.isSuccess ? response.data : null;
 
     setState(() {
       _isLoading = false;
