@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_track/main.dart';
+import 'package:ticket_track/providers/user_role_provider.dart';
 import 'package:ticket_track/services/auth_service.dart';
 import 'package:ticket_track/models/user_model.dart';
 
@@ -43,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     if (user != null && mounted) {
+      Provider.of<UserRoleProvider>(context, listen: false).setUser(user);
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page')),

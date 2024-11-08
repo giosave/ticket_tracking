@@ -8,10 +8,18 @@ class AuthService {
     if (username == 'testuser' && password == 'testpassword') {
       return UserModel(
         username: username,
-        fullName: 'Test User',
-        userId: 12345,
+        fullName: 'User Admin',
+        userId: 1,
         role: 'administrador',
         email: 'test@example.com',
+      );
+    } else if (username == 'testuser2' && password == 'testpassword2') {
+      return UserModel(
+        username: username,
+        fullName: 'User General',
+        userId: 2,
+        role: 'usuario',
+        email: 'test2@example.com',
       );
     }
     return null;

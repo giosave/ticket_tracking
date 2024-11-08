@@ -112,7 +112,10 @@ class MyHomePage extends StatelessWidget {
                   }
                   break;
                 case 'Cerrar Sesión':
-                  Provider.of<ScreenManager>(context, listen: false).changeScreen('Configuración');
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
                   break;
               }
             },
