@@ -4,6 +4,7 @@ import 'package:ticket_track/main.dart';
 import 'package:ticket_track/providers/user_role_provider.dart';
 import 'package:ticket_track/services/auth_service.dart';
 import 'package:ticket_track/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,6 +17,24 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCredentials();
+  }
+
+  Future<void> _loadCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    String? password = prefs.getString('password');
+
+    if (username != null && password != null) {
+      _userController.text = username;
+      _passwordController.text = password;
+      await _login();
+    }
+  }
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -49,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
       
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page')),
+        MaterialPageRoute(builder: (context) => MyHomePage(title: user.fullName)),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

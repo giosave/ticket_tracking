@@ -11,6 +11,7 @@ import 'models/screen_manager.dart';
 import 'models/theme_notifier.dart';
 import 'screens/configuration_app.dart';
 import 'screens/home_screen.dart';
+import 'services/auth_service.dart';
 
 void main() {
   runApp(
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: themeNotifier.themeData,
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          home: LoginScreen()
         );
       },
     );
@@ -112,6 +113,7 @@ class MyHomePage extends StatelessWidget {
                   }
                   break;
                 case 'Cerrar Sesión':
+                  AuthService().clearCredentials();
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),
