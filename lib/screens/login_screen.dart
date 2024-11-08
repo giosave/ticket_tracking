@@ -33,18 +33,16 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    UserModel user = UserModel(
-      username: _userController.text,
-      password: _passwordController.text,
+    UserModel? user = await _authService.authenticate(
+      _userController.text,
+      _passwordController.text,
     );
-
-    bool isAuthenticated = await _authService.authenticate(user);
 
     setState(() {
       _isLoading = false;
     });
 
-    if (isAuthenticated && mounted) {
+    if (user != null && mounted) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page')),

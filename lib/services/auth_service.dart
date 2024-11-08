@@ -2,8 +2,18 @@ import 'dart:async';
 import 'package:ticket_track/models/user_model.dart';
 
 class AuthService {
-  Future<bool> authenticate(UserModel user) async {
+  Future<UserModel?> authenticate(String username, String password) async {
     await Future.delayed(Duration(seconds: 1));
-    return user.username == 'testuser' && user.password == 'testpassword';
+
+    if (username == 'testuser' && password == 'testpassword') {
+      return UserModel(
+        username: username,
+        fullName: 'Test User',
+        userId: 12345,
+        role: 'administrador',
+        email: 'test@example.com',
+      );
+    }
+    return null;
   }
 }

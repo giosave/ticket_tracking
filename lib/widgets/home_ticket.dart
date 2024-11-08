@@ -5,6 +5,7 @@ import 'package:ticket_track/widgets/ticket_card.dart';
 import '../providers/ticket_provider.dart';
 import 'package:ticket_track/models/status_ticket.dart';
 import 'package:ticket_track/services/status_ticket_service.dart';
+import 'package:ticket_track/providers/user_role_provider.dart';
 
 class HomeTicket extends StatefulWidget {
   const HomeTicket({super.key});
@@ -57,6 +58,12 @@ class _HomeTicketState extends State<HomeTicket> {
   }
 
   Widget _buildDropdown() {
+    final userRoleProvider = Provider.of<UserRoleProvider>(context);
+
+    if (!userRoleProvider.isAdmin) {
+      return Container();
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
