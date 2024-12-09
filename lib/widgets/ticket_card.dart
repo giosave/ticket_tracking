@@ -247,7 +247,7 @@ class _TicketCardState extends State<TicketCard> {
                                       return;
                                     }
                                   },
-                                  child: const Text("Actualizar Fecha:"),
+                                  child: const Text("Actualizar Fecha"),
                                 ),
                                 TextButton(
                                   onPressed: () {
