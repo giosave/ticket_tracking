@@ -48,3 +48,6 @@ Para comenzar a usar este proyecto
 
 ## Versiones
 Version de SDK instalada para el uso de este proyecto: 
+
+- Flutter 3.24.3
+- Dart 3.5.3
