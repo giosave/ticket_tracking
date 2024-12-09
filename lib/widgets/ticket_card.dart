@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_track/models/ticket.dart';
 import 'dart:html' as html;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TicketCard extends StatefulWidget {
   final Ticket ticket;
@@ -113,6 +114,31 @@ class _TicketCardState extends State<TicketCard> {
                     ),
                   ),
                   onPressed: () async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    final String? userRole = prefs.getString('userRole');
+
+                    if (userRole != 'admin' && widget.ticket.status == 'En Progreso') {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Acción Restringida"),
+                            content: const Text(
+                                "El ticket está en progreso y no se puede modificar."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Cerrar"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      return;
+                    }
+
                     showDialog(
                       context: context,
                       builder: (context) {
